@@ -321,7 +321,20 @@
 <nav>
   <div class="nav-inner">
     <a class="logo" href="#">
-      <div style="width:40px;height:40px;background:linear-gradient(135deg,#0099DD,#00b8e6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:24px;flex-shrink:0;">◉</div>
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Círculo azul exterior -->
+        <circle cx="100" cy="100" r="95" fill="#0099DD"/>
+        <!-- Círculo negro interior -->
+        <circle cx="100" cy="100" r="85" fill="#1a1a1a"/>
+        <!-- Línea vertical central blanca -->
+        <line x1="100" y1="35" x2="100" y2="165" stroke="white" stroke-width="8" stroke-linecap="round"/>
+        <!-- Top rect - azul claro -->
+        <path d="M 45 45 Q 35 45 35 55 L 165 55 Q 175 55 175 45 Q 175 35 165 35 L 45 35 Q 35 35 35 45 Z" fill="none" stroke="#5fc3f0" stroke-width="8" stroke-linejoin="round"/>
+        <!-- Middle rect - blanco -->
+        <path d="M 45 95 Q 35 95 35 105 L 165 105 Q 175 105 175 95 Q 175 85 165 85 L 45 85 Q 35 85 35 95 Z" fill="none" stroke="white" stroke-width="8" stroke-linejoin="round"/>
+        <!-- Bottom rect - azul -->
+        <path d="M 45 145 Q 35 145 35 155 L 120 155 Q 130 155 130 145 Q 130 135 120 135 L 45 135 Q 35 135 35 145 Z" fill="none" stroke="#0099DD" stroke-width="8" stroke-linejoin="round"/>
+      </svg>
       <span>Agenzia</span>
     </a>
     <div class="nav-links">
