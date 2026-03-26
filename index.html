@@ -321,23 +321,27 @@
 <nav>
   <div class="nav-inner">
     <a class="logo" href="#">
-      <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+      <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0; display: block;">
+        <!-- Fondo blanco/transparente para mejor contraste -->
+        <circle cx="100" cy="100" r="98" fill="white" opacity="0.95" />
+
         <!-- Círculo azul exterior -->
-        <circle cx="100" cy="100" r="95" fill="#0099DD" />
+        <circle cx="100" cy="100" r="92" fill="#0099DD" />
+
         <!-- Círculo negro interior -->
-        <circle cx="100" cy="100" r="85" fill="#1a1a1a" />
+        <circle cx="100" cy="100" r="80" fill="#1a1a1a" />
 
-        <!-- Línea vertical central -->
-        <line x1="100" y1="50" x2="100" y2="150" stroke="white" stroke-width="6" stroke-linecap="round" />
+        <!-- Línea vertical central blanca -->
+        <line x1="100" y1="45" x2="100" y2="155" stroke="white" stroke-width="8" stroke-linecap="round" />
 
-        <!-- Top-left rounded rect con borde azul -->
-        <rect x="40" y="50" width="120" height="35" rx="18" fill="none" stroke="#0099DD" stroke-width="8" />
+        <!-- Top-left rounded rect con borde azul claro -->
+        <rect x="38" y="48" width="124" height="38" rx="20" fill="none" stroke="#7DD3FC" stroke-width="9" />
 
         <!-- Middle rounded rect con borde blanco -->
-        <rect x="40" y="82" width="120" height="35" rx="18" fill="none" stroke="white" stroke-width="8" />
+        <rect x="38" y="82" width="124" height="38" rx="20" fill="none" stroke="white" stroke-width="9" />
 
         <!-- Bottom rounded rect con borde azul -->
-        <rect x="40" y="114" width="80" height="35" rx="18" fill="none" stroke="#0099DD" stroke-width="8" />
+        <rect x="38" y="116" width="84" height="38" rx="20" fill="none" stroke="#0099DD" stroke-width="9" />
       </svg>
       <span>Agenzia</span>
     </a>
