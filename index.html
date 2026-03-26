@@ -23,8 +23,9 @@
       border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 24px;
     }
     .nav-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 66px; }
-    .logo { font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .logo span { color: var(--verde); }
+    .logo { font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: transform 0.2s; }
+    .logo:hover { transform: scale(1.05); }
+    .logo span { font-weight: 700; }
     .nav-links { display: flex; gap: 28px; }
     .nav-links a { color: #94a3b8; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: white; }
@@ -319,7 +320,27 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#">🤖 <span>Agentes</span>IA</a>
+    <a class="logo" href="#">
+      <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+        <!-- Círculo azul exterior -->
+        <circle cx="100" cy="100" r="95" fill="#0099DD" />
+        <!-- Círculo negro interior -->
+        <circle cx="100" cy="100" r="85" fill="#1a1a1a" />
+
+        <!-- Línea vertical central -->
+        <line x1="100" y1="50" x2="100" y2="150" stroke="white" stroke-width="6" stroke-linecap="round" />
+
+        <!-- Top-left rounded rect con borde azul -->
+        <rect x="40" y="50" width="120" height="35" rx="18" fill="none" stroke="#0099DD" stroke-width="8" />
+
+        <!-- Middle rounded rect con borde blanco -->
+        <rect x="40" y="82" width="120" height="35" rx="18" fill="none" stroke="white" stroke-width="8" />
+
+        <!-- Bottom rounded rect con borde azul -->
+        <rect x="40" y="114" width="80" height="35" rx="18" fill="none" stroke="#0099DD" stroke-width="8" />
+      </svg>
+      <span>Agenzia</span>
+    </a>
     <div class="nav-links">
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#precios">Precios</a>
