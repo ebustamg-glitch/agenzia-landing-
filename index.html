@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgentesIA — Tu Vendedor en WhatsApp 24/7</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --verde: #25D366; --verde-dark: #128C7E; --verde-light: #DCF8C6;
+      --negro: #0d1117; --gris: #6B7280; --gris-light: #F9FAFB;
+      --blanco: #ffffff; --radius: 16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: #1f2937; background: var(--blanco); line-height: 1.6; overflow-x: hidden; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(13,17,23,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 24px;
+    }
+    .nav-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 66px; }
+    .logo { font-weight: 800; font-size: 1.2rem; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--verde); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: #94a3b8; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: white; }
+    .nav-cta { background: var(--verde); color: #0d1117; padding: 10px 22px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 0.88rem; transition: all 0.2s; }
+    .nav-cta:hover { background: #20c55a; transform: translateY(-1px); }
+    @media(max-width:768px){ .nav-links { display:none; } }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      background: var(--negro);
+      display: flex; align-items: center;
+      padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    /* Dot grid background */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(37,211,102,0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    /* Green glow */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(37,211,102,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 1140px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    @media(max-width:900px){ .hero-inner { grid-template-columns: 1fr; text-align: center; } .hero-phone { display: none; } }
+
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.25); color: var(--verde); padding: 7px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); font-weight: 800; color: white; line-height: 1.12; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; background: linear-gradient(135deg, #25D366, #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.05rem; color: #94a3b8; margin-bottom: 36px; max-width: 480px; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    @media(max-width:900px){ .hero-btns { justify-content: center; } }
+    .btn-primary { display: inline-flex; align-items: center; gap: 9px; background: var(--verde); color: #0d1117; padding: 15px 30px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 28px rgba(37,211,102,0.35); }
+    .btn-primary:hover { background: #20c55a; transform: translateY(-2px); box-shadow: 0 8px 36px rgba(37,211,102,0.45); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.06); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 15px 30px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; }
+    .btn-secondary:hover { border-color: var(--verde); color: var(--verde); }
+    .hero-trust { font-size: 0.8rem; color: #4b5563; }
+    .hero-trust span { color: #6b7280; }
+    .hero-stats { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
+    @media(max-width:900px){ .hero-stats { justify-content: center; } }
+    .stat-item { }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--verde); display: block; line-height: 1; }
+    .stat-lbl { font-size: 0.78rem; color: #6b7280; margin-top: 4px; }
+
+    /* ─── PHONE MOCKUP ─── */
+    .hero-phone { display: flex; justify-content: center; align-items: center; }
+    .phone-wrap {
+      width: 300px; height: 580px;
+      background: #1c1c1e;
+      border-radius: 44px;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+      overflow: hidden;
+      position: relative;
+    }
+    .phone-notch { width: 100px; height: 28px; background: #1c1c1e; border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 2; }
+    .phone-status { display: flex; justify-content: space-between; padding: 8px 20px 0; font-size: 0.65rem; color: #6b7280; font-weight: 600; }
+    .phone-chat-header { background: #128C7E; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+    .phone-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #25D366, #128C7E); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .phone-contact { }
+    .phone-contact-name { color: white; font-size: 0.82rem; font-weight: 700; }
+    .phone-contact-status { color: rgba(255,255,255,0.7); font-size: 0.68rem; }
+    .phone-body { background: #ECE5DD; padding: 12px; display: flex; flex-direction: column; gap: 8px; height: calc(100% - 120px); overflow: hidden; }
+    .bubble { max-width: 78%; padding: 8px 12px; border-radius: 10px; font-size: 0.72rem; line-height: 1.45; position: relative; }
+    .bubble-time { font-size: 0.58rem; color: rgba(0,0,0,0.4); text-align: right; margin-top: 3px; }
+    .bubble-in { background: white; border-radius: 10px 10px 10px 2px; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .bubble-out { background: var(--verde-light); border-radius: 10px 10px 2px 10px; align-self: flex-end; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .bubble-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; }
+    .dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: #94a3b8; animation: pulse 1.2s infinite; }
+    .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
+    .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%,60%,100%{opacity:0.3;transform:scale(0.8)} 30%{opacity:1;transform:scale(1)} }
+
+    /* ─── CLIENTES STRIP ─── */
+    .clientes-strip { background: #f8fafc; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 32px 24px; text-align: center; }
+    .clientes-strip p { color: #9ca3af; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+    .logos { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: center; }
+    .logo-pill { background: white; border: 1px solid #e5e7eb; border-radius: 50px; padding: 10px 22px; font-weight: 700; font-size: 0.88rem; color: #374151; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .logo-pill.cta-pill { border-color: var(--verde); color: var(--verde-dark); }
+
+    /* ─── SECCIONES BASE ─── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1140px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--verde-dark); margin-bottom: 10px; display: block; }
+    h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); font-weight: 800; line-height: 1.18; margin-bottom: 14px; }
+    .subtitle { color: var(--gris); font-size: 1rem; max-width: 540px; }
+    .section-head { margin-bottom: 56px; }
+    .section-head.center { text-align: center; }
+    .section-head.center .subtitle { margin: 0 auto; }
+
+    /* ─── COMO FUNCIONA — fondo con líneas diagonales ─── */
+    .how-bg {
+      background-color: #0d1117;
+      background-image: repeating-linear-gradient(
+        -45deg, rgba(37,211,102,0.03) 0px, rgba(37,211,102,0.03) 1px,
+        transparent 1px, transparent 12px
+      );
+    }
+    .how-bg .section-label { color: var(--verde); }
+    .how-bg h2 { color: white; }
+    .how-bg .subtitle { color: #64748b; }
+    .pasos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
+    .paso {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius); padding: 36px 32px;
+      position: relative; transition: all 0.3s;
+    }
+    .paso:hover { background: rgba(37,211,102,0.05); border-color: rgba(37,211,102,0.2); }
+    .paso-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--verde), #00b894);
+      color: #0d1117; font-weight: 800; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+    }
+    .paso h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: white; }
+    .paso p { color: #64748b; font-size: 0.92rem; }
+
+    /* ─── FEATURES — fondo con puntos claros ─── */
+    .features-bg {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .feature-card {
+      background: white; border-radius: var(--radius); padding: 28px;
+      border: 1px solid #e5e7eb; transition: all 0.25s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .feature-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.09); transform: translateY(-5px); border-color: rgba(37,211,102,0.3); }
+    .feature-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px; }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { color: var(--gris); font-size: 0.88rem; line-height: 1.55; }
+
+    /* ─── RESULTADOS — fondo oscuro degradado ─── */
+    .resultados-bg {
+      background: linear-gradient(160deg, #0d1117 0%, #0a1f14 50%, #0d1117 100%);
+      position: relative; overflow: hidden;
+    }
+    .resultados-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(37,211,102,0.07) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(0,184,148,0.05) 0%, transparent 50%);
+    }
+    .resultados-bg .section-label { color: var(--verde); }
+    .resultados-bg h2 { color: white; }
+    .resultados-bg .subtitle { color: #64748b; }
+    .resultados-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; }
+    .resultado-card {
+      text-align: center; padding: 40px 28px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      transition: all 0.3s;
+    }
+    .resultado-card:hover { background: rgba(37,211,102,0.05); border-color: rgba(37,211,102,0.15); }
+    .resultado-num { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, var(--verde), #00e676); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; margin-bottom: 10px; line-height: 1; }
+    .resultado-label { color: #64748b; font-size: 0.88rem; line-height: 1.4; }
+
+    /* ─── NEGOCIOS — fondo con mesh gradient ─── */
+    .negocios-bg {
+      background: #f0fdf4;
+      background-image:
+        radial-gradient(at 20% 50%, rgba(37,211,102,0.08) 0px, transparent 50%),
+        radial-gradient(at 80% 20%, rgba(18,140,126,0.06) 0px, transparent 50%);
+    }
+    .negocios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 14px; }
+    .negocio-card {
+      background: white; border: 1px solid #e5e7eb; border-radius: var(--radius);
+      padding: 20px 14px; text-align: center; transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .negocio-card:hover { border-color: var(--verde); box-shadow: 0 6px 24px rgba(37,211,102,0.14); transform: translateY(-4px); }
+    .negocio-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .negocio-card span { font-size: 0.84rem; font-weight: 600; color: #374151; }
+
+    /* ─── PRECIOS ─── */
+    .precios-bg {
+      background: #0d1117;
+      background-image: radial-gradient(rgba(37,211,102,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .precios-bg .section-label { color: var(--verde); }
+    .precios-bg h2 { color: white; }
+    .precios-bg .subtitle { color: #64748b; }
+    .promo-banner {
+      background: linear-gradient(135deg, #064e3b, #065f46);
+      border: 1px solid rgba(37,211,102,0.2);
+      border-radius: var(--radius); padding: 20px 28px; margin-bottom: 36px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .promo-tag { color: #6ee7b7; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+    .promo-title { color: white; font-size: 1rem; font-weight: 700; }
+    .promo-sub { color: #a7f3d0; font-size: 0.8rem; margin-top: 4px; }
+    .promo-badge { background: var(--verde); color: #0d1117; padding: 9px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; white-space: nowrap; }
+    .precios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: start; }
+    .plan { border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 32px; position: relative; background: rgba(255,255,255,0.03); transition: all 0.3s; }
+    .plan:hover { background: rgba(255,255,255,0.05); }
+    .plan.popular { border-color: var(--verde); border-width: 2px; background: rgba(37,211,102,0.04); box-shadow: 0 0 0 1px rgba(37,211,102,0.1), 0 20px 60px rgba(0,0,0,0.4); }
+    .plan-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--verde); color: #0d1117; padding: 4px 18px; border-radius: 50px; font-size: 0.75rem; font-weight: 800; white-space: nowrap; }
+    .plan-name { font-size: 0.82rem; font-weight: 600; color: #64748b; margin-bottom: 8px; }
+    .plan-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 2px; }
+    .plan-price { font-size: 2.4rem; font-weight: 800; color: white; }
+    .plan-price sup { font-size: 1rem; vertical-align: top; margin-top: 8px; }
+    .plan-old-price { color: #4b5563; font-size: 0.9rem; text-decoration: line-through; }
+    .plan-period { color: #6b7280; font-size: 0.82rem; margin-bottom: 16px; }
+    .plan-promo-pill { background: rgba(37,211,102,0.1); border: 1px solid rgba(37,211,102,0.2); border-radius: 8px; padding: 8px 12px; margin-bottom: 24px; font-size: 0.78rem; color: #6ee7b7; font-weight: 600; }
+    .plan-features { list-style: none; margin-bottom: 28px; }
+    .plan-features li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.88rem; display: flex; align-items: flex-start; gap: 10px; color: #d1d5db; }
+    .plan-features li:last-child { border-bottom: none; }
+    .check { color: var(--verde); font-weight: 700; flex-shrink: 0; }
+    .plan-cta { display: block; text-align: center; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.12); padding: 14px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.2s; font-size: 0.9rem; }
+    .plan.popular .plan-cta { background: var(--verde); color: #0d1117; border-color: var(--verde); box-shadow: 0 4px 20px rgba(37,211,102,0.3); }
+    .plan-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─── SERVICIOS EXTRA — fondo con mesh claro ─── */
+    .servicios-bg {
+      background: white;
+      background-image:
+        radial-gradient(at 10% 30%, rgba(37,211,102,0.05) 0px, transparent 50%),
+        radial-gradient(at 90% 70%, rgba(18,140,126,0.04) 0px, transparent 50%);
+    }
+    .servicios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .servicio-card { background: white; border: 1px solid #e5e7eb; border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 14px; transition: all 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .servicio-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.09); transform: translateY(-5px); border-color: rgba(37,211,102,0.4); }
+    .servicio-top { display: flex; align-items: center; gap: 14px; }
+    .servicio-icon-wrap { width: 54px; height: 54px; border-radius: 16px; background: linear-gradient(135deg, #f0fdf4, #dcfce7); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+    .servicio-card h3 { font-size: 1rem; font-weight: 700; }
+    .servicio-card p { color: var(--gris); font-size: 0.87rem; line-height: 1.55; flex: 1; }
+    .servicio-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: #f3f4f6; border-radius: 50px; padding: 4px 11px; font-size: 0.73rem; font-weight: 500; color: #6b7280; }
+    .servicio-cta { display: block; text-align: center; border: 1.5px solid var(--verde-dark); color: var(--verde-dark); padding: 12px; border-radius: 50px; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: all 0.2s; }
+    .servicio-cta:hover { background: var(--verde); color: white; border-color: var(--verde); }
+
+    /* ─── FAQ ─── */
+    .faq-bg { background: #f8fafc; }
+    .faq-list { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { background: white; border-radius: var(--radius); border: 1px solid #e5e7eb; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .faq-q { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; font-size: 0.92rem; font-weight: 600; text-align: left; color: #111827; font-family: inherit; }
+    .faq-q .arrow { transition: transform 0.3s; color: #9ca3af; font-size: 1rem; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; color: var(--gris); font-size: 0.88rem; padding: 0 24px; line-height: 1.6; }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+    .faq-item.open .arrow { transform: rotate(180deg); color: var(--verde-dark); }
+    .faq-item.open .faq-q { color: var(--verde-dark); }
+
+    /* ─── CTA FINAL ─── */
+    .cta-final {
+      background: linear-gradient(160deg, #0d1117 0%, #052e16 50%, #0d1117 100%);
+      text-align: center; padding: 120px 24px; position: relative; overflow: hidden;
+    }
+    .cta-final::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(37,211,102,0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .cta-final::after {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(37,211,102,0.12) 0%, transparent 70%);
+    }
+    .cta-final-inner { position: relative; z-index: 1; }
+    .cta-final h2 { color: white; margin-bottom: 14px; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    .cta-final p { color: #64748b; margin-bottom: 40px; font-size: 1rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    /* ─── FOOTER ─── */
+    footer { background: #070a0f; color: #374151; text-align: center; padding: 32px 24px; font-size: 0.82rem; border-top: 1px solid rgba(255,255,255,0.04); }
+    footer a { color: var(--verde); text-decoration: none; }
+
+    /* ─── WA FLOAT ─── */
+    .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 999; background: var(--verde); color: white; width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.9rem; box-shadow: 0 4px 24px rgba(37,211,102,0.5); transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ─── FADE IN ─── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media(max-width:600px){ .nav-cta { display:none; } .hero-btns { flex-direction: column; align-items: stretch; } .hero-btns a { text-align: center; justify-content: center; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">🤖 <span>Agentes</span>IA</a>
+    <div class="nav-links">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#precios">Precios</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20mis%207%20dias%20de%20prueba%20gratis" target="_blank">Prueba gratis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">✨ Inteligencia Artificial · Disponible 24/7</div>
+      <h1>Tu negocio vendiendo<br/><em>24/7 en WhatsApp</em><br/>sin más personal</h1>
+      <p class="hero-sub">Creamos tu agente de IA personalizado. Responde clientes, recomienda productos y toma pedidos — solo, a cualquier hora.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20mis%207%20dias%20de%20prueba%20gratis" target="_blank">💬 Probar 7 días gratis</a>
+        <a class="btn-secondary" href="#precios">Ver planes ↓</a>
+      </div>
+      <p class="hero-trust">Sin tarjeta · Sin costo de configuración · Cancela cuando quieras</p>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num">48h</span><div class="stat-lbl">Tiempo de entrega</div></div>
+        <div class="stat-item"><span class="stat-num">24/7</span><div class="stat-lbl">Disponibilidad</div></div>
+        <div class="stat-item"><span class="stat-num">100%</span><div class="stat-lbl">Personalizado</div></div>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="hero-phone">
+      <div class="phone-wrap">
+        <div class="phone-notch"></div>
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-chat-header">
+          <div class="phone-avatar">🤖</div>
+          <div class="phone-contact">
+            <div class="phone-contact-name">Asistente IA</div>
+            <div class="phone-contact-status">en línea</div>
+          </div>
+        </div>
+        <div class="phone-body">
+          <div class="bubble bubble-in">Hola! ¿Cuánto cuesta el corte? 💇<div class="bubble-time">9:30</div></div>
+          <div class="bubble bubble-out">¡Hola! 😊 El corte de cabello está en $120 MXN. Incluye lavado y peinado.<div class="bubble-time">9:30 ✓✓</div></div>
+          <div class="bubble bubble-in">Perfecto! ¿Tienen lugar hoy?<div class="bubble-time">9:31</div></div>
+          <div class="bubble bubble-out">Sí tenemos lugar hoy! 🗓️ ¿A qué hora te queda bien? Tenemos disponible 3pm, 4pm y 5pm.<div class="bubble-time">9:31 ✓✓</div></div>
+          <div class="bubble bubble-in">A las 4pm me viene perfecto<div class="bubble-time">9:32</div></div>
+          <div class="bubble bubble-out">Listo! 🎉 Te agendo para hoy a las 4pm. ¿Me confirmas tu nombre?<div class="bubble-time">9:32 ✓✓</div></div>
+          <div class="bubble bubble-in bubble-typing"><div class="dot-pulse"></div><div class="dot-pulse"></div><div class="dot-pulse"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTES -->
+<div class="clientes-strip">
+  <p>Negocios que ya tienen su agente activo</p>
+  <div class="logos">
+    <div class="logo-pill">🥤 Nutrifreeze CDMX</div>
+    <div class="logo-pill">🌿 Biorofila Coapa</div>
+    <div class="logo-pill cta-pill">+ Tu negocio aquí →</div>
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<section class="how-bg" id="como-funciona">
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="section-label">El proceso</span>
+      <h2>Listo en 3 pasos simples</h2>
+      <p class="subtitle" style="color:#64748b;">No necesitas saber de tecnología. Nosotros nos encargamos de todo.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso fade-in">
+        <div class="paso-num">1</div>
+        <h3>Nos cuentas de tu negocio</h3>
+        <p>Platícanos qué vendes, cómo atiendes a tus clientes y qué preguntas te hacen más seguido. Una videollamada de 30 minutos es suficiente.</p>
+      </div>
+      <div class="paso fade-in">
+        <div class="paso-num">2</div>
+        <h3>Creamos tu agente personalizado</h3>
+        <p>Configuramos la IA con toda la información de tu negocio: catálogo, precios, preguntas frecuentes, tono de comunicación y más.</p>
+      </div>
+      <div class="paso fade-in">
+        <div class="paso-num">3</div>
+        <h3>Tu WhatsApp ya vende solo</h3>
+        <p>Conectamos el agente a tu número de WhatsApp y desde ese momento responde, recomienda y toma pedidos sin que muevas un dedo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-bg">
+  <div class="container">
+    <div class="section-head center fade-in">
+      <span class="section-label">Qué incluye</span>
+      <h2>Todo lo que necesitas para vender más</h2>
+      <p class="subtitle">Tu agente trabaja mientras tú duermes, atiendes otros pedidos o simplemente descansas.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in"><div class="feature-icon">🤖</div><h3>IA entrenada con tu catálogo</h3><p>El agente conoce cada producto, precio y beneficio de tu negocio. Responde con precisión como si fuera tu mejor vendedor.</p></div>
+      <div class="feature-card fade-in"><div class="feature-icon">🕐</div><h3>Atención 24 horas, 7 días</h3><p>Ningún cliente se queda sin respuesta. A las 2am, sábados y domingos — tu agente siempre está disponible.</p></div>
+      <div class="feature-card fade-in"><div class="feature-icon">📸</div><h3>Envío de imágenes de productos</h3><p>Cuando un cliente pregunta por un producto, el agente manda automáticamente fotos del catálogo para cerrar la venta más rápido.</p></div>
+      <div class="feature-card fade-in"><div class="feature-icon">📦</div><h3>Toma pedidos automáticamente</h3><p>Registra el pedido, confirma los datos del cliente y te notifica. El agente para de responder una vez confirmado.</p></div>
+      <div class="feature-card fade-in"><div class="feature-icon">💬</div><h3>Tono personalizado</h3><p>Lo configuramos para que hable como tú: formal, casual, entusiasta. Tus clientes sienten que hablan con alguien del equipo.</p></div>
+      <div class="feature-card fade-in"><div class="feature-icon">⚡</div><h3>Respuestas instantáneas</h3><p>Cero tiempos de espera. El agente responde en segundos, no en horas — mejorando la experiencia de tus clientes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados-bg">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-head center fade-in">
+      <span class="section-label">Resultados</span>
+      <h2>Lo que cambia en tu negocio</h2>
+    </div>
+    <div class="resultados-grid">
+      <div class="resultado-card fade-in"><span class="resultado-num">-80%</span><span class="resultado-label">Tiempo respondiendo WhatsApp manualmente</span></div>
+      <div class="resultado-card fade-in"><span class="resultado-num">+35%</span><span class="resultado-label">Tasa de conversión de conversaciones a pedidos</span></div>
+      <div class="resultado-card fade-in"><span class="resultado-num">0</span><span class="resultado-label">Clientes perdidos por falta de respuesta rápida</span></div>
+      <div class="resultado-card fade-in"><span class="resultado-num">48h</span><span class="resultado-label">Para tener tu agente activo y vendiendo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEGOCIOS IDEALES -->
+<section class="negocios-bg">
+  <div class="container">
+    <div class="section-head center fade-in">
+      <span class="section-label">Ideal para</span>
+      <h2>Perfecto para negocios que trabajan con citas y clientes frecuentes</h2>
+      <p class="subtitle">Si tus clientes te preguntan precios, disponibilidad o hacen citas por WhatsApp, tu agente puede hacer eso solo.</p>
+    </div>
+    <div class="negocios-grid">
+      <div class="negocio-card fade-in"><span class="negocio-icon">💅</span><span>Uñas y nail art</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">👁️</span><span>Extensiones de pestañas</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">✂️</span><span>Barberías</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">💇‍♀️</span><span>Estéticas y salones</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🧖‍♀️</span><span>Spas y masajes</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🪮</span><span>Cejas y micropigmentación</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🦷</span><span>Dentistas y consultorios</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🎂</span><span>Pastelerías y repostería</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">📸</span><span>Fotógrafos</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">💪</span><span>Gimnasios y entrenadores</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🌿</span><span>Nutriólogos y coaches</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🛍️</span><span>Tiendas y e-commerce</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🍕</span><span>Restaurantes y fondas</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🌸</span><span>Depilación y skincare</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🐾</span><span>Veterinarias y grooming</span></div>
+      <div class="negocio-card fade-in"><span class="negocio-icon">🏠</span><span>Servicios a domicilio</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="precios-bg" id="precios">
+  <div class="container">
+    <div class="section-head center fade-in">
+      <span class="section-label">Planes</span>
+      <h2>Empieza gratis, paga solo si te convence</h2>
+      <p class="subtitle">7 días de prueba gratis · Primer mes a mitad de precio · Sin costo de configuración</p>
+    </div>
+    <div class="promo-banner fade-in">
+      <div>
+        <div class="promo-tag">Promoción de lanzamiento</div>
+        <div class="promo-title">Sin costo de configuración + 7 días gratis + primer mes al 50%</div>
+        <div class="promo-sub">Solo necesitas compartir la información de tu negocio para activar tu prueba</div>
+      </div>
+      <div class="promo-badge">Tiempo limitado</div>
+    </div>
+    <div class="precios-grid">
+      <div class="plan fade-in">
+        <div class="plan-name">Básico</div>
+        <div class="plan-price-row"><div class="plan-price"><sup>$</sup>750</div><div class="plan-old-price">$1,500</div></div>
+        <div class="plan-period">MXN primer mes · luego $1,500/mes</div>
+        <div class="plan-promo-pill">🎁 7 días gratis · sin tarjeta · sin setup</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Agente personalizado para tu negocio</li>
+          <li><span class="check">✓</span> Respuestas 24/7 en WhatsApp</li>
+          <li><span class="check">✓</span> Hasta 5 servicios o productos</li>
+          <li><span class="check">✓</span> Preguntas frecuentes configuradas</li>
+          <li><span class="check">✓</span> 1 actualización de contenido / mes</li>
+          <li><span class="check">✓</span> Soporte por WhatsApp</li>
+        </ul>
+        <a class="plan-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20probar%207%20dias%20gratis%20el%20plan%20Básico" target="_blank">Iniciar prueba gratis</a>
+      </div>
+      <div class="plan popular fade-in">
+        <div class="plan-badge">⭐ Más popular</div>
+        <div class="plan-name">Profesional</div>
+        <div class="plan-price-row"><div class="plan-price"><sup>$</sup>1,250</div><div class="plan-old-price">$2,500</div></div>
+        <div class="plan-period">MXN primer mes · luego $2,500/mes</div>
+        <div class="plan-promo-pill">🎁 7 días gratis · sin tarjeta · sin setup</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Todo lo del plan Básico</li>
+          <li><span class="check">✓</span> Catálogo completo sin límite</li>
+          <li><span class="check">✓</span> Envío automático de imágenes</li>
+          <li><span class="check">✓</span> Toma de pedidos o citas integrada</li>
+          <li><span class="check">✓</span> Citas guardadas en Google Sheets</li>
+          <li><span class="check">✓</span> Actualizaciones ilimitadas</li>
+          <li><span class="check">✓</span> Soporte prioritario</li>
+          <li><span class="check">✓</span> Reporte mensual de conversaciones</li>
+        </ul>
+        <a class="plan-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20probar%207%20dias%20gratis%20el%20plan%20Profesional" target="_blank">Iniciar prueba gratis</a>
+      </div>
+      <div class="plan fade-in">
+        <div class="plan-name">Empresarial</div>
+        <div class="plan-price" style="font-size:2rem;margin-bottom:2px;">Cotizar</div>
+        <div class="plan-period">para múltiples sucursales o equipos</div>
+        <div class="plan-promo-pill">📞 Demo personalizada incluida</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Todo lo del plan Profesional</li>
+          <li><span class="check">✓</span> Múltiples números de WhatsApp</li>
+          <li><span class="check">✓</span> Integración con tienda en línea</li>
+          <li><span class="check">✓</span> Citas en Google Calendar</li>
+          <li><span class="check">✓</span> Agente en varios idiomas</li>
+          <li><span class="check">✓</span> Soporte dedicado con SLA</li>
+          <li><span class="check">✓</span> Reunión mensual de revisión</li>
+        </ul>
+        <a class="plan-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20el%20plan%20Empresarial" target="_blank">Contactar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS ADICIONALES -->
+<section class="servicios-bg" id="servicios">
+  <div class="container">
+    <div class="section-head center fade-in">
+      <span class="section-label">Servicios adicionales</span>
+      <h2>Todo lo que tu negocio necesita en digital</h2>
+      <p class="subtitle">Más allá del agente de WhatsApp, te ayudamos a crecer. Se cotizan por separado.</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">🌐</div><div><h3>Landing page profesional</h3></div></div>
+        <p>Página web de una sola pantalla diseñada para convertir visitas en clientes. Ideal para negocios que quieren presencia en internet sin pagar una página compleja.</p>
+        <div class="servicio-tags"><span class="tag">Entrega en 72h</span><span class="tag">Diseño responsive</span><span class="tag">Formulario de contacto</span><span class="tag">Link de WhatsApp</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20una%20landing%20page" target="_blank">Cotizar</a>
+      </div>
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">🛒</div><div><h3>Tienda en línea</h3></div></div>
+        <p>Página web completa con catálogo de productos, carrito de compras y pedidos conectados directamente a tu WhatsApp. Tus clientes compran en línea, tú recibes el pedido.</p>
+        <div class="servicio-tags"><span class="tag">Catálogo de productos</span><span class="tag">Pedidos a WhatsApp</span><span class="tag">Pagos en línea</span><span class="tag">Diseño personalizado</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20una%20tienda%20en%20linea" target="_blank">Cotizar</a>
+      </div>
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">📢</div><div><h3>Campañas masivas de WhatsApp</h3></div></div>
+        <p>Envía mensajes personalizados a toda tu lista de contactos de una sola vez. Ideal para promociones, recordatorios de citas, lanzamientos o reactivar clientes.</p>
+        <div class="servicio-tags"><span class="tag">Envío masivo</span><span class="tag">Mensajes personalizados</span><span class="tag">Imágenes y videos</span><span class="tag">Reportes de entrega</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesan%20campanas%20masivas%20de%20WhatsApp" target="_blank">Cotizar</a>
+      </div>
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">💬</div><div><h3>Chatbot para página web</h3></div></div>
+        <p>El mismo agente con IA que tienes en WhatsApp, ahora también en tu página web. Atiende visitas del sitio en tiempo real y los convierte en clientes.</p>
+        <div class="servicio-tags"><span class="tag">Widget en tu sitio</span><span class="tag">Misma IA que WhatsApp</span><span class="tag">Derivación a WhatsApp</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20el%20chatbot%20para%20mi%20pagina%20web" target="_blank">Cotizar</a>
+      </div>
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">📊</div><div><h3>Menú digital con QR</h3></div></div>
+        <p>Tu cliente escanea el QR y ve tu menú o catálogo actualizado desde su celular. Perfecto para restaurantes, cafeterías, fondas y servicios.</p>
+        <div class="servicio-tags"><span class="tag">Código QR personalizado</span><span class="tag">Actualizaciones en tiempo real</span><span class="tag">Sin app adicional</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20un%20menu%20digital%20con%20QR" target="_blank">Cotizar</a>
+      </div>
+      <div class="servicio-card fade-in">
+        <div class="servicio-top"><div class="servicio-icon-wrap">📱</div><div><h3>Gestión de redes sociales</h3></div></div>
+        <p>Nos encargamos de publicar contenido en Instagram, Facebook y TikTok por ti. Fotos, videos, historias y respuesta a comentarios cada mes.</p>
+        <div class="servicio-tags"><span class="tag">Instagram</span><span class="tag">Facebook</span><span class="tag">TikTok</span><span class="tag">Contenido mensual</span></div>
+        <a class="servicio-cta" href="https://wa.me/52TUNUMERO?text=Hola,%20me%20interesa%20la%20gestión%20de%20redes%20sociales" target="_blank">Cotizar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-bg" id="faq">
+  <div class="container">
+    <div class="section-head center fade-in">
+      <span class="section-label">Preguntas frecuentes</span>
+      <h2>Todo lo que necesitas saber</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-in"><button class="faq-q">¿Necesito tener un número de WhatsApp Business?<span class="arrow">↓</span></button><div class="faq-a">No necesariamente. Podemos trabajar con tu número actual de WhatsApp o con uno nuevo dedicado para el agente. Te asesoramos según tu situación.</div></div>
+      <div class="faq-item fade-in"><button class="faq-q">¿Cuánto tiempo tarda en estar listo?<span class="arrow">↓</span></button><div class="faq-a">Normalmente entre 24 y 48 horas después de que nos compartes la información de tu negocio. Hacemos una prueba contigo antes de activarlo con tus clientes reales.</div></div>
+      <div class="faq-item fade-in"><button class="faq-q">¿El agente puede responder en cualquier idioma?<span class="arrow">↓</span></button><div class="faq-a">Sí. La IA que usamos entiende y responde en español, inglés y muchos otros idiomas automáticamente según el idioma en que te escriba el cliente.</div></div>
+      <div class="faq-item fade-in"><button class="faq-q">¿Qué pasa si el agente no sabe responder algo?<span class="arrow">↓</span></button><div class="faq-a">El agente está configurado para reconocer cuando no tiene la información y notificar al cliente que alguien del equipo se pondrá en contacto. Nunca inventa información.</div></div>
+      <div class="faq-item fade-in"><button class="faq-q">¿Puedo actualizar la información del agente?<span class="arrow">↓</span></button><div class="faq-a">Sí. Si cambian tus precios, productos o políticas, nos avisas y lo actualizamos. En el plan Profesional las actualizaciones son ilimitadas.</div></div>
+      <div class="faq-item fade-in"><button class="faq-q">¿Los mensajes de mis clientes son privados?<span class="arrow">↓</span></button><div class="faq-a">Sí. La información se maneja de forma segura. No compartimos datos de tus clientes con terceros y el historial de conversaciones es solo tuyo.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="cta-final-inner">
+    <h2>7 días gratis, sin tarjeta, sin riesgo</h2>
+    <p>Activa tu prueba hoy. Solo comparte la información de tu negocio y en 48 horas tu agente está funcionando.</p>
+    <a class="btn-primary" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20mis%207%20dias%20de%20prueba%20gratis" target="_blank">💬 Quiero mis 7 días gratis</a>
+    <p style="color:#374151; font-size:0.82rem; margin-top:20px;">Primer mes al 50% · Sin costo de configuración · Cancela cuando quieras</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 AgentesIA · Hecho en CDMX 🇲🇽 · <a href="mailto:tucorreo@gmail.com">tucorreo@gmail.com</a></p>
+</footer>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/52TUNUMERO?text=Hola,%20quiero%20info%20sobre%20el%20agente%20de%20WhatsApp" target="_blank" title="Escribir por WhatsApp">💬</a>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
