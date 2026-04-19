@@ -133,9 +133,23 @@
     @keyframes pulse { 0%,60%,100%{opacity:0.3;transform:scale(0.8)} 30%{opacity:1;transform:scale(1)} }
 
     /* ─── CLIENTES STRIP ─── */
-    .clientes-strip { background: #f8fafc; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 32px 24px; text-align: center; }
-    .clientes-strip p { color: #9ca3af; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
-    .logos { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: center; }
+    /* ─── CLIENTES TESTIMONIOS ─── */
+    .clientes-section { background: #f8fafc; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; padding: 64px 24px; }
+    .clientes-section .section-label { color: var(--verde-dark); text-align: center; display: block; }
+    .clientes-section h2 { text-align: center; margin-bottom: 8px; font-size: clamp(1.4rem, 2.5vw, 2rem); }
+    .clientes-section .subtitle { text-align: center; margin: 0 auto 48px; }
+    .testimonios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1140px; margin: 0 auto 40px; }
+    .testimonio-card { background: white; border: 1px solid #e5e7eb; border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transition: all 0.25s; }
+    .testimonio-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.09); transform: translateY(-4px); border-color: rgba(37,211,102,0.3); }
+    .testimonio-emoji { font-size: 2rem; }
+    .testimonio-negocio { font-weight: 800; font-size: 1rem; color: #111827; }
+    .testimonio-giro { font-size: 0.78rem; color: var(--gris); margin-top: 2px; }
+    .testimonio-texto { color: #374151; font-size: 0.9rem; line-height: 1.6; flex: 1; font-style: italic; }
+    .testimonio-texto::before { content: '"'; color: var(--verde); font-size: 1.4rem; font-style: normal; line-height: 0; vertical-align: -6px; margin-right: 2px; }
+    .testimonio-texto::after { content: '"'; color: var(--verde); font-size: 1.4rem; font-style: normal; line-height: 0; vertical-align: -6px; margin-left: 2px; }
+    .btn-demo { display: inline-flex; align-items: center; gap: 8px; background: #f0fdf4; border: 1.5px solid var(--verde); color: var(--verde-dark); padding: 10px 18px; border-radius: 50px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: all 0.2s; justify-content: center; }
+    .btn-demo:hover { background: var(--verde); color: white; }
+    .clientes-cta-row { text-align: center; }
     .logo-pill { background: white; border: 1px solid #e5e7eb; border-radius: 50px; padding: 10px 22px; font-weight: 700; font-size: 0.88rem; color: #374151; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
     .logo-pill.cta-pill { border-color: var(--verde); color: var(--verde-dark); }
 
@@ -425,15 +439,43 @@
   </div>
 </section>
 
-<!-- CLIENTES -->
-<div class="clientes-strip">
-  <p>Negocios que ya tienen su agente activo</p>
-  <div class="logos">
-    <div class="logo-pill">🥤 Nutrifreeze CDMX</div>
-    <div class="logo-pill">🌿 Biorofila Coapa</div>
-    <div class="logo-pill cta-pill">+ Tu negocio aquí →</div>
+<!-- CLIENTES TESTIMONIOS -->
+<section class="clientes-section">
+  <div class="container">
+    <span class="section-label">Clientes activos</span>
+    <h2>Negocios que ya venden con su agente</h2>
+    <p class="subtitle">Prueba tú mismo cómo responde cada agente — es el mismo que atiende a sus clientes reales.</p>
+    <div class="testimonios-grid">
+      <div class="testimonio-card fade-in">
+        <div>
+          <div class="testimonio-emoji">🥤</div>
+          <div class="testimonio-negocio">NutriFreeze CDMX</div>
+          <div class="testimonio-giro">Smoothies con fruta liofilizada</div>
+        </div>
+        <p class="testimonio-texto">Antes perdíamos clientes porque no podíamos contestar en las noches o fines de semana. Desde que activamos el agente, los pedidos llegan solos y nosotros solo confirmamos. En el primer mes recuperamos lo que pagamos.</p>
+        <a class="btn-demo" href="https://wa.me/525545390970?text=Hola,%20quiero%20conocer%20sus%20productos" target="_blank">💬 Probar agente en vivo</a>
+      </div>
+      <div class="testimonio-card fade-in">
+        <div>
+          <div class="testimonio-emoji">🌿</div>
+          <div class="testimonio-negocio">Biorofila Coapa CDMX</div>
+          <div class="testimonio-giro">Barritas congeladas prensadas en frío para jugo express</div>
+        </div>
+        <p class="testimonio-texto">Lo que más me sorprendió fue que el agente recomienda los productos igual que yo — con la info correcta y sin inventar nada. Mis clientes no notan diferencia y yo ya no estoy pegado al celular todo el día.</p>
+        <a class="btn-demo" href="https://wa.me/525516957962?text=Hola,%20quiero%20conocer%20sus%20productos" target="_blank">💬 Probar agente en vivo</a>
+      </div>
+      <div class="testimonio-card fade-in">
+        <div>
+          <div class="testimonio-emoji">✨</div>
+          <div class="testimonio-negocio">¿Tu negocio aquí?</div>
+          <div class="testimonio-giro">Únete a los negocios que ya venden 24/7</div>
+        </div>
+        <p class="testimonio-texto">En 48 horas tu agente puede estar activo, conociendo tus productos y atendiendo clientes mientras tú descansas. Sin complicaciones técnicas — nosotros hacemos todo.</p>
+        <a class="btn-demo" href="https://wa.me/525644145407?text=Hola,%20quiero%20activar%20mi%20agente%20de%20WhatsApp" target="_blank">💬 Quiero mi agente</a>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- COMO FUNCIONA -->
 <section class="how-bg" id="como-funciona">
